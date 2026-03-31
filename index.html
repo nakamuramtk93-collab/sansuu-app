@@ -1011,6 +1011,23 @@
   let score = 0;
   let answered = false;
 
+  // スマホ用: 最初のタップでAudioContextを有効化
+  let audioUnlocked = false;
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    let ctx = new (window.AudioContext || window.webkitAudioContext)();
+    let buf = ctx.createBuffer(1, 1, 22050);
+    let src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    audioUnlocked = true;
+    document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('click', unlockAudio);
+  }
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+  document.addEventListener('click', unlockAudio, { once: true });
+
   const emojis = {
     addition: ['🍬', '🍭', '🧁', '🍩', '🍪', '🎂', '🍫', '🍰', '🍡', '🍦'],
     subtraction: ['🍰', '🎈', '🎁', '🍎', '🌸', '🐣', '🦋', '🍓', '🌺', '🎀'],
