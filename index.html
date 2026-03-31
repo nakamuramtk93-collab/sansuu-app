@@ -761,6 +761,105 @@
     100% { opacity: 0; }
   }
 
+  /* === レスポンシブ対応 === */
+
+  /* タブレット */
+  @media (max-width: 1024px) {
+    .title-screen h1 { font-size: 34px; }
+    .title-screen .subtitle { font-size: 20px; }
+    .menu-btn { padding: 18px 24px; font-size: 22px; }
+    .menu-col { gap: 18px; }
+    .clear-photo { height: 80vh; }
+    .fail-photo { height: 65vh; }
+  }
+
+  /* スマートフォン */
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+
+    /* タイトル画面 */
+    .title-screen { padding: 15px; gap: 15px; }
+    .title-row { flex-direction: column; gap: 4px; }
+    .title-screen h1 { font-size: 28px; }
+    .title-screen .subtitle { font-size: 18px; }
+
+    .menu-grid { flex-direction: column; align-items: center; gap: 12px; }
+    .menu-col { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .menu-btn { padding: 14px 18px; font-size: 16px; border-radius: 16px; }
+
+    /* 問題画面 */
+    .container { max-width: 100%; }
+    .question-emoji { font-size: 36px; margin-bottom: 6px; }
+    .question-text { font-size: 32px; }
+    .question-hint { font-size: 14px; }
+    .question-card { padding: 15px; border-radius: 20px; margin-bottom: 10px; }
+    .choice-btn { padding: 14px; font-size: 28px; border-radius: 16px; }
+    .choices { gap: 8px; }
+    .count-emojis { font-size: 36px; letter-spacing: 4px; }
+    .back-btn { width: 40px; height: 40px; font-size: 16px; }
+    .progress, .score-display { font-size: 16px; padding: 6px 12px; }
+    .quiz-header { margin-bottom: 10px; }
+
+    /* フィードバック */
+    .feedback { font-size: 44px; padding: 20px 30px; border-radius: 20px; }
+    .feedback-text { font-size: 20px; }
+
+    /* クリア画面 */
+    .clear-photo { height: 70vh; border-radius: 14px; }
+    .speech-bubble {
+      font-size: 20px; padding: 10px 16px; border-radius: 20px;
+      left: 5px; top: -5px;
+    }
+    .clear-stars { font-size: 30px; letter-spacing: 8px; left: 8px; }
+    .clear-home-btn { right: 10px; bottom: 15px; }
+
+    /* 残念画面 */
+    .fail-photo { height: 60vh; border-radius: 14px; }
+    .fail-bubble { font-size: 16px; padding: 10px 14px; left: 5px; }
+    .fail-score { font-size: 28px; right: 10px; }
+    .fail-home-btn { left: 10px; bottom: 15px; }
+
+    /* スタンプ表 */
+    .stamp-screen { padding: 10px; }
+    .stamp-title { font-size: 24px; }
+    .stamp-month { font-size: 16px; }
+    .stamp-card { padding: 12px; border-radius: 16px; }
+    .stamp-grid { gap: 4px; }
+    .stamp-cell .day-num { font-size: 9px; right: 2px; top: 1px; }
+    .stamp-cell.stamped .stamp-icon { font-size: 20px; }
+    .stamp-count { font-size: 16px; }
+    .stamp-buttons { flex-direction: row; gap: 8px; }
+    .stamp-buttons .menu-btn { font-size: 16px; padding: 12px 18px; }
+  }
+
+  /* 小さいスマホ (iPhone SE等) */
+  @media (max-width: 380px) {
+    .title-screen h1 { font-size: 24px; }
+    .title-screen .subtitle { font-size: 16px; }
+    .menu-btn { padding: 12px 14px; font-size: 14px; }
+    .question-text { font-size: 28px; }
+    .choice-btn { padding: 12px; font-size: 24px; }
+    .clear-photo { height: 60vh; }
+    .speech-bubble { font-size: 16px; padding: 8px 12px; }
+    .fail-photo { height: 50vh; }
+    .fail-bubble { font-size: 14px; padding: 8px 10px; }
+  }
+
+  /* 横向き対応 */
+  @media (max-height: 500px) {
+    .title-screen { gap: 8px; padding: 10px; }
+    .title-row { flex-direction: row; }
+    .menu-grid { flex-direction: row; }
+    .menu-col { gap: 6px; }
+    .menu-btn { padding: 10px 16px; font-size: 16px; }
+    .question-emoji { font-size: 28px; margin-bottom: 4px; }
+    .question-text { font-size: 28px; }
+    .question-card { padding: 10px; margin-bottom: 8px; }
+    .choice-btn { padding: 10px; font-size: 24px; }
+    .clear-photo { height: 85vh; }
+    .fail-photo { height: 75vh; }
+  }
+
   /* 紙吹雪 */
   .confetti {
     position: fixed;
