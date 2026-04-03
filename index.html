@@ -898,6 +898,63 @@
     margin: 15px 0;
     line-height: 1.5;
   }
+
+  /* 分解問題の表示 */
+  .decompose-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .decompose-total {
+    font-size: 56px;
+    font-weight: bold;
+    color: #e65100;
+    line-height: 1;
+  }
+  .decompose-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .decompose-box {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #999;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    background: #fff;
+  }
+  .decompose-box.filled {
+    color: #333;
+    border-color: #aaa;
+  }
+  .decompose-box.empty {
+    color: #e65100;
+    border-color: #e65100;
+    border-style: dashed;
+    animation: pulseBox 1.2s ease-in-out infinite;
+  }
+  @keyframes pulseBox {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(230,81,0,0.3); }
+    50% { box-shadow: 0 0 12px 4px rgba(230,81,0,0.25); }
+  }
+  .decompose-emoji-row {
+    font-size: 36px;
+    letter-spacing: 6px;
+    margin-top: 4px;
+  }
+
+  /* 黄色ボタン */
+  .menu-btn.yellow {
+    background: linear-gradient(135deg, #FFD54F, #FFC107);
+    color: #5d4037;
+  }
 </style>
 </head>
 <body>
@@ -914,6 +971,7 @@
 
     <div class="menu-grid">
       <div class="menu-col menu-col-left">
+        <button class="menu-btn yellow" onclick="startQuiz('decompose')">🔀 わけると いくつ？</button>
         <button class="menu-btn blue" onclick="startQuiz('counting')">🔢 つぎの かずは？</button>
         <button class="menu-btn pink" onclick="startQuiz('addition')">🍬 たしざん</button>
         <button class="menu-btn orange" onclick="startQuiz('countObjects')">👀 いくつ あるかな？</button>
@@ -1033,7 +1091,8 @@
     subtraction: ['🍰', '🎈', '🎁', '🍎', '🌸', '🐣', '🦋', '🍓', '🌺', '🎀'],
     counting: ['🔢', '✨', '🌟', '💫', '🎯', '📝', '🎨', '🌈', '💎', '🎵'],
     compare: ['🐘', '🐭', '🦁', '🐰', '🐻', '🦊', '🐶', '🐱', '🐸', '🦄'],
-    countObjects: ['🍎', '🌟', '🐟', '🚗', '🐤', '🌺', '🍇', '🎈', '🐱', '🍊']
+    countObjects: ['🍎', '🌟', '🐟', '🚗', '🐤', '🌺', '🍇', '🎈', '🐱', '🍊'],
+    decompose: ['🐱', '🐟', '🐘', '🐤', '🍎', '🌸', '🎈', '🍊', '🦋', '🐶']
   };
 
   const correctMessages = [
@@ -1113,6 +1172,24 @@
           isCount: true
         });
       }
+    } else if (type === 'decompose') {
+      for (let i = 0; i < 5; i++) {
+        let total = Math.floor(Math.random() * 6) + 3; // 3〜8
+        let partA = Math.floor(Math.random() * (total - 1)) + 1; // 1〜total-1
+        let partB = total - partA;
+        let emo = emojis.decompose[i];
+        questions.push({
+          text: `${total} を わけると ${partA} と ？`,
+          hint: 'わけると いくつ？',
+          answer: partB,
+          emoji: emo,
+          isDecompose: true,
+          decomposeTotal: total,
+          decomposePartA: partA,
+          decomposePartB: partB,
+          decomposeEmoji: emo
+        });
+      }
     }
 
     return questions;
@@ -1167,6 +1244,20 @@
       countEmojis.style.display = 'block';
       countEmojis.textContent = q.countDisplay;
       document.getElementById('questionText').textContent = 'いくつ？';
+    } else if (q.isDecompose) {
+      countEmojis.style.display = 'block';
+      let emo = q.decomposeEmoji;
+      let totalEmojis = emo.repeat(q.decomposeTotal);
+      countEmojis.innerHTML =
+        '<div class="decompose-layout">' +
+          '<div class="decompose-total">' + q.decomposeTotal + '</div>' +
+          '<div class="decompose-row">' +
+            '<div class="decompose-box filled">' + q.decomposePartA + '</div>' +
+            '<div class="decompose-box empty">？</div>' +
+          '</div>' +
+          '<div class="decompose-emoji-row">' + totalEmojis + '</div>' +
+        '</div>';
+      document.getElementById('questionText').textContent = '';
     } else {
       countEmojis.style.display = 'none';
     }
